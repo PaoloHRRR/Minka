@@ -1,0 +1,90 @@
+db.createCollection("Users", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["_id", "name", "email", "role", "registration_date"],
+      properties: {
+        "_id": {
+          bsonType: "objectId",
+          description: "Unique identifier for the user"
+        },
+        "name": {
+          bsonType: "string",
+          minLength: 1,
+          description: "User's full name, cannot be empty"
+        },
+        "profile_picture": {
+          bsonType: "string",
+          description: "User's profile picture"
+        },
+        "email": {
+          bsonType: "string",
+          pattern: "^\\S+@\\S+\\.\\S+$",
+          description: "User's email address, must be a valid email format"
+        },
+        "system_role": {
+          bsonType: "string",
+          enum: ["admin", "user"],
+          description: "User's role within the system, must be one of predefined roles"
+        },
+        "registration_date": {
+          bsonType: "date",
+          description: "User registration date"
+        },
+        "ONGD_role": {
+          bsonType: "array",
+          items: {
+            bsonType: "object",
+            required: ["ONGD", "name"],
+            properties: {
+              "ONGD": {
+                bsonType: "objectId",
+                description: "ObjectId referencing the ONGD where the user has a charge on"
+              },
+              "name": {
+                bsonType: "string",
+                description: "Name of the role the user has"
+              }
+            }
+          }
+        },
+        "activity_history": {
+          bsonType: "array",
+          items: {
+            bsonType: "object",
+            required: ["activity", "date"],
+            properties: {
+              "activity": {
+                bsonType: "objectId",
+                description: "ObjectId referring to the project where the user was a volunteer at"
+              },
+              "date": {
+                bsonType: "date",
+                description: "Date of the activity"
+              }
+            }
+          },
+          description: "Array of user activities, each with an activity ObjectId and a date"
+        },
+        "achievements": {
+          bsonType: "array",
+          items: {
+            bsonType: "object",
+            required: ["achievement", "completion_date"],
+            properties: {
+              "achievement": {
+                bsonType: "objectId",
+                description: "ObjectId referring to the achievement"
+              },
+              "completion_date": {
+                bsonType: "date",
+                description: "Date when the achievement was completed"
+              }
+            }
+          },
+          description: "Array of achievements, each with an achievement ObjectId and a completion date"
+        }
+      }
+    }
+  }
+});
