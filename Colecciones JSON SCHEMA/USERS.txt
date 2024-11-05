@@ -2,7 +2,7 @@ db.createCollection("Users", {
   validator: {
     $jsonSchema: {
       bsonType: "object",
-      required: ["_id", "name", "email", "role", "registration_date"],
+      required: ["_id", "name", "password", "email", "system_role", "registration_date"],
       properties: {
         "_id": {
           bsonType: "objectId",
@@ -13,9 +13,14 @@ db.createCollection("Users", {
           minLength: 1,
           description: "User's full name, cannot be empty"
         },
+        "password": {
+          bsonType: "string",
+          minLength: 1,
+          description: "User's safe password after hashing"
+        },
         "profile_picture": {
           bsonType: "string",
-          description: "User's profile picture"
+          description: "User's profile picture URL"
         },
         "email": {
           bsonType: "string",
@@ -32,21 +37,19 @@ db.createCollection("Users", {
           description: "User registration date"
         },
         "ONGD_role": {
-          bsonType: "array",
-          items: {
-            bsonType: "object",
-            required: ["ONGD", "name"],
-            properties: {
-              "ONGD": {
-                bsonType: "objectId",
-                description: "ObjectId referencing the ONGD where the user has a charge on"
-              },
-              "name": {
-                bsonType: "string",
-                description: "Name of the role the user has"
-              }
+          bsonType: "object",
+          required: ["ONGD", "name"],
+          properties: {
+            "ONGD": {
+              bsonType: "objectId",
+              description: "ObjectId referencing the ONGD where the user has a charge"
+            },
+            "name": {
+              bsonType: "string",
+              description: "Name of the role the user has"
             }
-          }
+          },
+          description: "User's role information within a specific ONGD"
         },
         "activity_history": {
           bsonType: "array",
@@ -56,7 +59,7 @@ db.createCollection("Users", {
             properties: {
               "activity": {
                 bsonType: "objectId",
-                description: "ObjectId referring to the project where the user was a volunteer at"
+                description: "ObjectId referring to the project where the user was a volunteer"
               },
               "date": {
                 bsonType: "date",
@@ -83,6 +86,29 @@ db.createCollection("Users", {
             }
           },
           description: "Array of achievements, each with an achievement ObjectId and a completion date"
+        },
+        "stats": {
+          bsonType: "object",
+          required: ["number_of_posts", "number_of_donations", "total_donations", "days_as_good_person"],
+          properties: {
+            "number_of_posts": {
+              bsonType: "int",
+              description: "Total number of posts made by the user"
+            },
+            "number_of_donations": {
+              bsonType: "int",
+              description: "Total number of donations made by the user"
+            },
+            "total_donations": {
+              bsonType: "double",
+              description: "Total monetary value of donations made by the user"
+            },
+            "days_as_good_person": {
+              bsonType: "int",
+              description: "Total days the user has maintained a good standing"
+            }
+          },
+          description: "Statistics related to user activities and contributions"
         }
       }
     }
