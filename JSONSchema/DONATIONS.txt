@@ -20,22 +20,16 @@ db.createCollection("Donations", {
           bsonType: "date",
           description: "Date of the donation"
         },
-        "content": {
-          bsonType: "object",
-          properties: {
-            "type": {
-              bsonType: "string",
-              enum: ["monetary", "in-kind", "service"],
-              minLength: 1,
-              description: "Type of donation, cannot be empty"
-            },
-            "description": {
-              bsonType: "string",
-              minLength: 10,
-              maxLength: 500,
-              description: "Description of the donation, must be between 10 and 500 characters"
-            }
-          }
+        "type": {
+          bsonType: "string",
+          enum: ["monetary", "in-kind", "service"],
+          minLength: 1,
+          description: "Type of donation, cannot be empty"
+        },
+        "donation_amount": {
+          bsonType: "int",
+          minimum: 0,
+          description: "Amount of the donation"
         }
       }
     }

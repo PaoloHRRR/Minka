@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+	api:
+		build: .
+		container_name: api
+		ports:
+			- "8000:8000"
+		depends_on:
+			- mongodb
+	mongodb:
+		image: mongo
+		container_name: mongodb
+		ports:
+			- "27017:27017"
+		volumes:
+			- /var/lib/mongodb:/data/db

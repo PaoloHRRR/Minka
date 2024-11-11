@@ -13,7 +13,7 @@ db.createCollection("NGODs", {
           description: "NGO name"
         },
         "profile_picture": {
-          bsonType: "string",
+          bsonType: "objectId",
           description: "Profile picture of the NGO"
         },
         "status": {

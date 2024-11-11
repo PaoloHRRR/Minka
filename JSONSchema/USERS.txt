@@ -19,7 +19,7 @@ db.createCollection("Users", {
           description: "User's safe password after hashing"
         },
         "profile_picture": {
-          bsonType: "string",
+          bsonType: "objectId",
           description: "User's profile picture URL"
         },
         "email": {

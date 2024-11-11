@@ -23,8 +23,8 @@ db.createCollection("Achievements", {
           description: "Date when the achievement was created"
         },
         "image": {
-          bsonType: "string",
-          description: "URL to the achievement image"
+          bsonType: "objectId",
+          description: "ObjectId reference to the achievement image"
         }
       }
     }
