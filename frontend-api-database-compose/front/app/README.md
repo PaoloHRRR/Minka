@@ -1,0 +1,1 @@
+Clonar todo el repositorio de Minka frontend
