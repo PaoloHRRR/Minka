@@ -1,0 +1,74 @@
+db.createCollection("Projects", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["_id", "NGOD", "name", "status", "creation_date"],
+      properties: {
+        "_id": {
+          bsonType: "objectId",
+          description: "Unique identifier for the project"
+        },
+        "NGOD": {
+          bsonType: "objectId",
+          description: "Identifier for the associated NGO, referencing another collection"
+        },
+        "name": {
+          bsonType: "string",
+          minLength: 1,
+          description: "Project name"
+        },
+        "status": {
+          bsonType: "string",
+          enum: ["planned", "ongoing", "completed", "cancelled"],
+          description: "Project status"
+        },
+        "description": {
+          bsonType: "string",
+          description: "Project description"
+        },
+        "creation_date": {
+          bsonType: "date",
+          description: "Project creation date"
+        },
+        "start_date": {
+          bsonType: "date",
+          description: "Project start date"
+        },
+        "ending_date": {
+          bsonType: "date",
+          description: "Estimated project end date"
+        },
+        "location": {
+          bsonType: "array",
+          items: {
+            bsonType: "string"
+          },
+          description: "Project locations (can be multiple)"
+        },
+        "funding_sources": {
+          bsonType: "array",
+          items: {
+            bsonType: "string"
+          },
+          description: "Sources of funding for the project"
+        },
+        "volunteers": {
+          bsonType: "array",
+          items: {
+            bsonType: "objectId",
+            description: "References to volunteers from another collection"
+          },
+          description: "List of volunteers involved in the project"
+        },
+        "beneficiaries": {
+          bsonType: "array",
+          items: {
+            bsonType: "objectId",
+            description: "References to beneficiaries from another collection"
+          },
+          description: "List of beneficiaries of the project"
+        }
+      }
+    }
+  }
+});

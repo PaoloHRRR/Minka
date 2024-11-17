@@ -1,0 +1,138 @@
+db.createCollection("NGODs", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["_id", "name", "status", "description", "address"],
+      properties: {
+        "_id": {
+          bsonType: "objectId",
+          description: "Unique identifier for the NGO"
+        },
+        "name": {
+          bsonType: "string",
+          description: "NGO name"
+        },
+        "profile_picture": {
+          bsonType: "objectId",
+          description: "Profile picture of the NGO"
+        },
+        "status": {
+          bsonType: "string",
+          enum: ["active", "inactive", "pending"],
+          description: "NGO status"
+        },
+        "description": {
+          bsonType: "string",
+          description: "Description of the NGO"
+        },
+	      "registration_date": {
+	        bsonType: "date",
+	        description: "NGO's registration date on the platform"
+	      },
+        "legal_documents": {
+          bsonType: "array",
+          items: {
+            bsonType: "string",
+            pattern: "^(https?|ftp)://.*$"
+          },
+          description: "List of legal document URLs for the NGO"
+        },
+        "projects": {
+          bsonType: "array",
+          items: {
+            bsonType: "objectId"
+          },
+          description: "List of projects associated with the NGO"
+        },
+        "address": {
+          bsonType: "object",
+          required: ["streetAddress", "department", "province", "district"],
+          properties: {
+            "streetAddress": {
+              bsonType: "string",
+              description: "The street address where the NGO is physically located"
+            },
+            "department": {
+              bsonType: "string",
+              description: "The main administrative division, often equivalent to a state, where the NGO is located"
+            },
+            "province": {
+              bsonType: "string",
+              description: "The province or secondary administrative region within the department"
+            },
+            "district": {
+              bsonType: "string",
+              description: "The specific district or local administrative area of the NGO"
+            }
+          }
+        },
+        "contact": {
+          bsonType: "object",
+          properties: {
+            "email": {
+              bsonType: "string",
+              pattern: "^\\S+@\\S+\\.\\S+$",
+              description: "Contact email of the NGO, must be a valid email format"
+            },
+            "phone": {
+              bsonType: "string",
+              pattern: "^\\+?[0-9]{7,15}$",
+              description: "Contact phone number of the NGO, must be a valid phone number"
+            }
+          },
+          required: ["email", "phone"],
+          description: "Contact information for the NGO"
+        },
+        "social_media": {
+          bsonType: "array",
+          items: {
+            bsonType: "object",
+            properties: {
+              "name": {
+                bsonType: "string",
+                description: "Name of the social media platform"
+              },
+              "link": {
+                bsonType: "string",
+                pattern: "^(https?|ftp)://.*$",
+                description: "URL link to the NGO's social media profile"
+              }
+            },
+            required: ["name", "link"],
+            description: "Social media accounts of the NGO"
+          }
+        },
+        "roles": {
+          bsonType: "array",
+          items: {
+            bsonType: "object",
+            properties: {
+              "role_name": {
+                bsonType: "string",
+                description: "Name of the role"
+              },
+              "permissions": {
+                bsonType: "array",
+                items: {
+                  bsonType: "string",
+                  enum: ["write", "delete", "edit", "manage_users"],
+                  description: "List of permissions associated with the role"
+                },
+                description: "Permissions associated with the role"
+              },
+              "user": {
+                bsonType: "array",
+                items: {
+                  bsonType: "objectId"
+                },
+                description: "List of user IDs assigned to this role"
+              }
+            },
+            required: ["role_name", "permissions", "user"],
+            description: "Roles within the NGO"
+          }
+        }
+      }
+    }
+  }
+});
